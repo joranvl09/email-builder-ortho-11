@@ -1,148 +1,25 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Orto Email Builder — CKEditor Snippets & Templates</title>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>CKEditor 5 Sample</title>
+		<link rel="stylesheet" href="./style.css">
+		<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/47.2.0/ckeditor5.css" crossorigin>
+		<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5-premium-features/47.2.0/ckeditor5-premium-features.css" crossorigin>
+	</head>
+	<body>
+		<div class="main-container">
+			<div
+				class="editor-container editor-container_classic-editor editor-container_include-style editor-container_include-fullscreen"
+				id="editor-container"
+			>
+				<div class="editor-container__editor"><div id="editor"></div></div>
+			</div>
+		</div>
+		<script src="https://cdn.ckeditor.com/ckeditor5/47.2.0/ckeditor5.umd.js" crossorigin></script>
+		<script src="https://cdn.ckeditor.com/ckeditor5-premium-features/47.2.0/ckeditor5-premium-features.umd.js" crossorigin></script>
+		<script src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossorigin></script>
+		<script src="./main.js"></script>
+	</body>
+</html>
 
-  <style>
-    :root{
-      --sidebar-w: 320px;
-      --gap: 18px;
-      --border: #d0d0d0;
-      --bg: #fafafa;
-      --accent: #0b74de;
-    }
-    body {
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      margin: 0;
-      padding: 18px;
-      background: var(--bg);
-      color:#111;
-    }
-    header {
-      margin-bottom: 12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-    }
-    h1 { font-size: 18px; margin:0; }
-    .sub { color:#555; font-size:13px; }
-
-    .layout {
-      display: flex;
-      gap: var(--gap);
-      align-items: flex-start;
-    }
-
-    /* SIDEBAR */
-    #sidebar {
-      width: var(--sidebar-w);
-      min-height: 560px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      background: #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-      box-sizing: border-box;
-    }
-    #sidebar h2 { font-size: 14px; margin: 4px 0 10px; }
-    .controls { display:flex; gap:8px; margin-bottom:10px; align-items:center; }
-    select, button { padding:6px 8px; font-size:13px; }
-    button.primary { background:var(--accent); color:#fff; border:none; border-radius:6px; cursor:pointer; }
-
-    .snippetsList { margin-top:10px; max-height:420px; overflow:auto; padding-right:6px; }
-    .snippet {
-      user-select: none;
-      -webkit-user-select: none;
-      background:#f8f9fb;
-      border:1px solid #e2e6ea;
-      padding:10px;
-      margin-bottom:8px;
-      border-radius:6px;
-      cursor:grab;
-      font-size:14px;
-      line-height:1.4;
-    }
-    .snippet small { display:block; color:#555; margin-top:6px; font-size:12px; }
-
-    /* EDITOR AREA */
-    #editorWrap {
-      flex:1;
-      min-height:560px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    #editorToolbar {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
-    }
-    #editorContainer {
-      border:1px solid var(--border);
-      border-radius:8px;
-      background:#fff;
-      padding:10px;
-      min-height:420px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-    }
-    /* small helper */
-    .muted { color:#666; font-size:13px; }
-
-    /* Responsive */
-    @media (max-width: 920px) {
-      .layout { flex-direction:column; }
-      #sidebar { width:100%; }
-    }
-  </style>
-
-  <!-- CKEditor CDN (Classic build, reliable) -->
-  <script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/classic/ckeditor.js"></script>
-</head>
-<body>
-  <header>
-    <div>
-      <h1>Orto Email Builder</h1>
-      <div class="sub">Drag & drop snippets → bewerk in de editor → kopieer naar Gmail</div>
-    </div>
-    <div class="muted">Werkend in de browser — direct op GitHub Pages</div>
-  </header>
-
-  <div class="layout">
-    <!-- SIDEBAR -->
-    <aside id="sidebar">
-      <h2>Templates & Snippets</h2>
-
-      <div class="controls">
-        <select id="templateSelect" aria-label="Kies template">
-          <option value="">— Kies een template —</option>
-          <option value="appointment">Afspraakbevestiging (Uitgebreid)</option>
-          <option value="followup">Nazorg / Follow-up (Uitgebreid)</option>
-          <option value="reminder">Herinnering afspraak</option>
-        </select>
-        <button id="loadTemplate" class="primary">Laad</button>
-      </div>
-
-      <div style="margin-bottom:8px;" class="muted">Klik op een snippet om te plakken of sleep naar de editor.</div>
-
-      <div class="snippetsList" id="snippetsList">
-        <!-- Voorbeeldsnippets -->
-        <div class="snippet" draggable="true" data-html="<p>Beste [Klantnaam],</p>">
-          Beste [Klantnaam],
-          <small>Begroeting</small>
-        </div>
-
-        import { ClassicEditor, Clipboard } from 'ckeditor5';
-
-ClassicEditor
-	.create( document.querySelector( '#editor' ), {
-		licenseKey: '<YOUR_LICENSE_KEY>', // Or 'GPL'.
-		plugins: [ Clipboard, /* ...other plugins... */ ],
-	})
-	.then( /* ... */ )
-	.catch( /* ... */ );
-
-        <div class="snippet" draggable="true" data-html="<p>Wij bevestigen hierbij uw afspraak op <strong>[Datum]</strong> om <stron
