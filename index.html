@@ -135,4 +135,14 @@
           <small>Begroeting</small>
         </div>
 
+        import { ClassicEditor, Clipboard } from 'ckeditor5';
+
+ClassicEditor
+	.create( document.querySelector( '#editor' ), {
+		licenseKey: '<YOUR_LICENSE_KEY>', // Or 'GPL'.
+		plugins: [ Clipboard, /* ...other plugins... */ ],
+	})
+	.then( /* ... */ )
+	.catch( /* ... */ );
+
         <div class="snippet" draggable="true" data-html="<p>Wij bevestigen hierbij uw afspraak op <strong>[Datum]</strong> om <stron
